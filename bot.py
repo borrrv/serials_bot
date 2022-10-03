@@ -8,13 +8,18 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data_base import sqlite_db
+from dotenv import load_dotenv
+import os
+import settings
 
-
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
-VLAD_ID = 1010297647
-EVAN_ID = 1326212594
-ROMA_ID = 256828848
+
+VLAD_ID = settings.VLAD_ID
+ROMA_ID = settings.ROMA_ID
+EVAN_ID = settings.EVAN_ID
+TOKEN = os.getenv('TOKEN')
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
