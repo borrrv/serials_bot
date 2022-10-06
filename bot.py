@@ -20,9 +20,9 @@ load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
-VLAD_ID = os.getenv('VLAD_ID')
-ROMA_ID = os.getenv('ROMA_ID')
-EVAN_ID = os.getenv('EVAN_ID')
+VLAD_ID = settings.VLAD_ID
+ROMA_ID = settings.ROMA_ID
+EVAN_ID = settings.EVAN_ID
 TOKEN = os.getenv('TOKEN')
 API_TOKEN = os.getenv('API_TOKEN')
 
