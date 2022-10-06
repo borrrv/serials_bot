@@ -56,12 +56,14 @@ def get_api_answer(current_timestamp):
     """Request to API."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
-    try:
-        requests.get(url=settings.ENDPOINT,
-                     headers=HEADERS,
-                     params=params)
-    except Exception:
-        raise Exception('Network problem, please try again later')
+    while True:
+        try:
+            requests.get(url=settings.ENDPOINT,
+                         headers=HEADERS,
+                         params=params)
+        except Exception:
+            raise Exception('Network problem, please try again later')
+        time.sleep(settings.RETRY_TIME)
 
 
 @dp.message_handler(commands=['start'])
