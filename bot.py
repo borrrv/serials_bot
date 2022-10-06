@@ -7,11 +7,15 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from data_base import sqlite_db
 from dotenv import load_dotenv
+from http import HTTPStatus
 
 import os
 import settings
 import logging
 import sqlite3 as sq
+import requests
+import time
+import settings
 
 load_dotenv()
 
@@ -21,6 +25,9 @@ VLAD_ID = settings.VLAD_ID
 ROMA_ID = settings.ROMA_ID
 EVAN_ID = settings.EVAN_ID
 TOKEN = os.getenv('TOKEN')
+API_TOKEN = os.getenv('API_TOKEN')
+
+HEADERS = {'Authorization': f'OAuth {API_TOKEN}'}
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=MemoryStorage())
@@ -44,6 +51,18 @@ class FSMVlad(StatesGroup):
     name_serials_vlad = State()
     season_vlad = State()
     series_vlad = State()
+
+
+def get_api_answer(current_timestamp):
+    """Request to API."""
+    timestamp = current_timestamp or int(time.time())
+    params = {'from_date': timestamp}
+    try:
+        requests.get(url=settings.ENDPOINT,
+                     headers=HEADERS,
+                     params=params)
+    except Exception:
+        raise Exception('Network problem, please try again later')
 
 
 @dp.message_handler(commands=['start'])
